@@ -1,0 +1,149 @@
+.k-seo-preview__label {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--spacing-2);
+}
+.k-seo-preview__label > .k-icon {
+  color: var(--theme-color-icon);
+}
+
+.k-google-search-preview {
+  padding: 1rem;
+  background: var(--input-color-back);
+  border-radius: var(--input-rounded);
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.k-google-search-preview__header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.k-google-search-preview__favicon {
+  display: inline-flex;
+  width: 26px;
+  height: 26px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid light-dark(#ecedef, #9aa0a6);
+  background: light-dark(#f1f3f4, #fff);
+  margin: 0;
+
+  img {
+    display: block;
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.k-google-search-preview__site-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.k-google-search-preview__site-title {
+  font-size: 0.875rem;
+  color: light-dark(#202124, #bdc1c6);
+  line-height: 1.2;
+  margin-bottom: 0.125rem;
+  display: block;
+}
+
+.k-google-search-preview__url {
+  font-size: 0.75rem;
+  color: light-dark(#5f6368, #9aa0a6);
+  line-height: 1.2;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}
+
+.k-google-search-preview__title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: normal;
+  color: light-dark(#1a0dab, #99c3ff);
+  line-height: 1.2;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}
+
+.k-google-search-preview__description {
+  margin: 0.25rem 0 0;
+  font-size: 0.875rem;
+  color: light-dark(#4d5156, #bfbfbf);
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.k-facebook-preview {
+  background: light-dark(#ffffff, #242526);
+  border: 1px solid light-dark(#dadde1, #3e4042);
+  overflow: hidden;
+  border-radius: var(--rounded);
+}
+
+.k-facebook-preview__image {
+  width: 100%;
+  height: 0;
+  padding-bottom: 52.355%;
+  position: relative;
+
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.k-facebook-preview__content {
+  padding: 0.75rem 1rem;
+  background: light-dark(#f0f2f5, #363638);
+}
+
+.k-facebook-preview__title,
+.k-facebook-preview__description,
+.k-facebook-preview__url {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: 1;
+}
+
+.k-facebook-preview__url {
+  color: light-dark(#65676b, #b0b3b8);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  line-height: 1.1;
+  margin-bottom: 0.25rem;
+}
+
+.k-facebook-preview__title {
+  font-weight: 600;
+  line-height: 1.1765;
+  font-size: 1rem;
+  color: light-dark(#050505, #e4e6eb);
+  margin: 0.3125rem 0;
+}
+
+.k-facebook-preview__description {
+  line-height: 1.3333;
+  color: light-dark(#65676b, #b0b3b8);
+  font-size: 0.875rem;
+}

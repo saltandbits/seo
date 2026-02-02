@@ -1,0 +1,60 @@
+label:
+  en: SEO
+  nl: SEO
+icon: search
+columns:
+  - width: 3/5
+    sections:
+      seocontent:
+        type: fields
+        fields:
+          seotitle:
+            label:
+              en: Title
+              nl: Titel
+            type: text
+            placeholder: "{{ page.isHomePage ? site.title : page.title }} {{ page.isHomePage ? '' : '|' }} {{ page.isHomePage ? '' : site.title }}"
+            help:
+              en: Defaults to page title
+              nl: Standaard is paginatitel
+          seodescription:
+            label:
+              en: Description
+              nl: Beschrijving
+            type: textarea
+            buttons: false
+            placeholder: "{{ site.seodescription.value }}"
+            help:
+              en: Recomended maximum of 150 characters
+              nl: Aangeraden maximum van 150 karakters
+          seoimage:
+            label:
+              en: Open Graph image
+              nl: Open Graph afbeelding
+            type: files
+            multiple: false
+            image:
+              ratio: 1200/630
+              cover: true
+            help:
+              en: Shown when sharing this page on WhatsApp, Facebook,...
+              nl: Wordt getoond wanneer je deze pagina deelt op WhatsApp, Facebook,...
+          seorobots:
+            label: Allow robots
+            type: toggles
+            default: index
+            options:
+              index:
+                en: "Yes"
+                nl: Ja
+              noindex:
+                en: "No"
+                nl: Nee
+            columns: 2
+            help:
+              en: Allow searchengine robots to index and crawl this page
+              nl: Laat zoekrobots toe om deze pagina te indexeren in zoekmachines
+  - width: 2/5
+    sections:
+      seo:
+        type: seo
