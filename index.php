@@ -25,7 +25,15 @@ Kirby::plugin('saltandbits/seo', [
           return site()->seodescription()->value();
         },
         'siteImage' => function(){
-          return site()->seoimage()->toFile()->thumb(['width' => 1200, 'height' => 630, 'crop' => true,])->url();
+          if ($image = site()->seoimage()->toFile()) {
+            return $image->thumb([
+              'width' => 1200,
+              'height' => 630,
+              'crop' => true,
+            ])->url();
+          }
+
+          return null;
         },
         'siteUrl' => function(){
           return site()->url();
