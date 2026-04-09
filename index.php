@@ -53,57 +53,93 @@ Kirby::plugin('saltandbits/seo', [
       'pattern' => 'sitemap.xml',
       'method' => 'GET',
       'action' => function () {
-
         $xml = new SimpleXMLElement(
           '<?xml version="1.0" encoding="UTF-8"?><urlset/>'
         );
-
         $xml->addAttribute(
           'xmlns',
           'http://www.sitemaps.org/schemas/sitemap/0.9'
         );
-
         $xml->addAttribute(
           'xmlns:image',
           'http://www.google.com/schemas/sitemap-image/1.1'
         );
-
         $languages = kirby()->languages();
         $isMultilang = kirby()->multilang();
 
         foreach (site()->pages()->index() as $page) {
-
           foreach ($languages as $language) {
-
             if ($isMultilang && !$page->translation($language->code())->exists()) {
               continue;
             }
 
-            $content = $isMultilang
-              ? $page->content($language->code())
-              : $page->content();
+            $getContent = function ($p) use ($isMultilang, $language) {
+              return $isMultilang
+                ? $p->content($language->code())
+                : $p->content();
+            };
 
-            if (
-              $content->has('seorobots') &&
-              str_contains(
-                strtolower($content->seorobots()->value()),
-                'noindex'
-              )
-            ) {
+            // Recursively determine if a page should be included
+            $shouldInclude = function ($p) use (&$shouldInclude, $getContent) {
+              $content = $getContent($p);
+              $robots = $content->has('seorobots')
+                ? strtolower(trim($content->seorobots()->value()))
+                : '';
+
+              // Explicit "noindex" on this page — always exclude, no override possible
+              if (str_contains($robots, 'noindex')) {
+                return false;
+              }
+
+              // Check parent — blocking conditions bubble down unconditionally
+              $parent = $p->parent();
+              if ($parent) {
+                $parentContent = $getContent($parent);
+                $parentRobots = $parentContent->has('seorobots')
+                  ? strtolower(trim($parentContent->seorobots()->value()))
+                  : '';
+
+                // Parent "noindex" cannot be overruled by any child
+                if (str_contains($parentRobots, 'noindex')) {
+                  return false;
+                }
+
+                // Unlisted parent with no explicit "index" blocks children
+                // unless this child has explicit "index"
+                if (!$parent->isListed() && $parentRobots !== 'index') {
+                  if ($robots !== 'index') {
+                    return false;
+                  }
+                }
+
+                // Recurse further up the tree
+                if (!$shouldInclude($parent)) {
+                  return false;
+                }
+              }
+
+              // Explicit "index" on this page — include regardless of listed status
+              if ($robots === 'index') {
+                return true;
+              }
+
+              // No explicit value — fall back to listed status
+              return $p->isListed();
+            };
+
+            if (!$shouldInclude($page)) {
               continue;
             }
 
             $url = $xml->addChild('url');
             $url->addChild('loc', html($page->url($language->code())));
             $url->addChild('lastmod', $page->modified('c'));
-
             foreach ($page->images() as $image) {
               $imageNode = $url->addChild(
                 'image:image',
                 null,
                 'http://www.google.com/schemas/sitemap-image/1.1'
               );
-
               $imageNode->addChild(
                 'image:loc',
                 html($image->url()),
